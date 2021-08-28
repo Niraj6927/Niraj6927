@@ -1,4 +1,4 @@
-#include<iostream> // iostream stands for standard input-output stream. This header file contains definitions to objects like cin, cout, cerr etc. ... This header file is used to handle the data being read from a file as input or data being written into the file as output
+#include<iostream> // iostream stands  standard input-output stream. This header file contains definitions to objects like cin, cout, cerr etc. ... This header file is used to handle the data being read from a file as input or data being written into the file as output
 #include<fstream>  // It is used to create files, write information to files, and read information from files.
 #include<iomanip>  //iomanip is a library that is used to manipulate the output of C++ program.
 using namespace std;
