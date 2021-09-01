@@ -35,7 +35,8 @@ intal* create_intal()
 // Deletes an intal, especially the memory allocated to it.
 // i is a pointer to an intal to be deleted. It also resets *i to null.
 
-void delete_intal(intal** i){
+void delete_intal(intal** i)
+{
 
 	if (i == NULL) {
 		return;
@@ -59,7 +60,8 @@ void delete_intal(intal** i){
 // a postive integer could start without a + sign.
 // str is unmodified.
 
-void read_intal(intal* i, char* str){
+void read_intal(intal* i, char* str)
+{
 	int n;
 
 	if(i == NULL) {
@@ -91,7 +93,8 @@ void read_intal(intal* i, char* str){
 // It's just printf of s in intal (with format specifier %s) except that 
 // it doesn't print the sign in case of positive integer.
 
-void print_intal(intal* i){
+void print_intal(intal* i)
+{
 	if(i == NULL) {
 		return; //no intal to print
 	}
@@ -149,7 +152,8 @@ char * remove_zero(char * a)
 // Adds two intals a and b, and returns the sum.
 // Parameters a and b are not modified. Sum is a new intal.
 
-intal* add_intal(intal* a, intal* b){
+intal* add_intal(intal* a, intal* b)
+{
 	intal* result = create_intal(); //creating a result intal variable to hold the result
 	int i=0;
 	int j;
@@ -240,7 +244,8 @@ int cmp(char *a , char *b)
 // Subtracts intal b from intal a. That is, finds a-b and returns the answer.
 // Parameters a and b are not modified. a-b is a new intal.
 
-intal* subtract_intal(intal* a, intal* b){
+intal* subtract_intal(intal* a, intal* b)
+{
 
 	intal* result = create_intal(); //creating a result intal variable to hold the result
 	int noOfZero;
@@ -317,7 +322,8 @@ intal* subtract_intal(intal* a, intal* b){
 // Multiplys two intals a and b, and returns the product.
 // Parameters a and b are not modified. Product is a new intal.
 
-intal* multiply_intal(intal* a, intal* b){
+intal* multiply_intal(intal* a, intal* b)
+{
 	intal* result = create_intal();
 	int i,j,tmp;
 	int *i1 = (int *)malloc(sizeof(int)*a->n);
@@ -389,7 +395,8 @@ int grtzero(intal* i){
 // That is, finds floor(a/b), which is aka integer division.
 // Parameters a and b are not modified. Floor(a/b) is a new intal.
 
-intal* divide_intal(intal* a, intal* b){
+intal* divide_intal(intal* a, intal* b)
+{
 	intal* result = create_intal();
 	read_intal(result , "0");
 	//int i;
@@ -494,11 +501,74 @@ intal* divide_intal(intal* a, intal* b){
 
 }
 
+intal* exponent(intal* a,intal* n){
+	intal* den=create_intal();
+	intal* temp=create_intal();
+	intal* z=create_intal();
+	intal* fp=create_intal();intal* p=create_intal();
+	int n_len=strlen(n->s);
+	char last_char=n->s[n_len-1];
+	int max=strlen(n->s);
+	z->s=(char*)malloc(100+max+3);
+	z->s="+1";
+	z=padding(z,max-1);
+	
+	read_intal(den,"+2");
+	if(strcmp(n->s,z->s)==0){
+		return a;
+	}
+	n=divide_intal(n,den);
+	temp=exponent(a,n);
+	fp=multiply_intal(temp,temp);
+	
+	if(last_char=='1'||last_char=='3'||last_char=='5'||last_char=='7'||last_char=='9'){
+		p=multiply_intal(a,fp);
+		return p;
+	}
+	delete_intal(&den);delete_intal(&temp);delete_intal(&z);delete_intal(&p);
+	return fp; 
+}
+
+intal* brute_exponent(intal* a,intal* n)
+{
+	int max=strlen(n->s);	
+	intal* z = create_intal();
+	intal* p = create_intal();
+	intal* fp = create_intal();
+	read_intal(p,a->s);
+	intal* constant = create_intal();
+	read_intal(constant,"1");
+
+	z->s=(char*)malloc(100+max+3);
+	z->s="+1";
+	z=padding(z,max);
+
+	while(strcmp(n->s+1,z->s+1)>0){
+		intal*fn=create_intal();
+		fn=subtract_intal(n,constant);
+		delete_intal(&n);
+		n=create_intal();
+		read_intal(n,fn->s);
+		delete_intal(&fn);
+		fp = create_intal();
+		fp=multiply_intal(p,a);
+		delete_intal(&p);
+		p=create_intal();
+		read_intal(p,fp->s);
+		delete_intal(&fp);
+	}
+
+	delete_intal(&constant);delete_intal(&z);
+	return p;
+}
+
+
 // Finds a^b, which a to the power of b and returns the result. 
 // The result could be undefined if the intal b is negative.
 // Parameters a and b are not modified. The result is a new intal.
 
-intal* pow_intal(intal* a, intal* b) {
+intal* pow_intal(intal* a, intal* b) 
+{
 
 	intal* result = create_intal();
 	result = a;
